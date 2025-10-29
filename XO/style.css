@@ -1,0 +1,151 @@
+body {
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.blur{
+    position: fixed;
+    bottom: 0;
+    width: 0;
+    background:linear-gradient(150deg,rgb(183, 29, 214),blue);
+    display: block;
+    z-index: 1;
+    transition: all 0.5s;
+}
+
+.child_body {
+    margin: auto;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.player {
+    padding: 8px 16px;
+    background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+    color: white;
+    border-radius: 10px;
+    min-width: 40px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    margin-bottom: 15px;
+}
+
+.current_player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.place {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 320px;
+    height: 320px;
+    padding: 15px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.cell {
+    width: 90px;
+    height: 90px;
+    font-size: 48px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+.cell:hover {
+    transform: translateY(-3px);
+    background: white;
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.15),
+        inset 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.cell:active {
+    transform: translateY(-1px);
+}
+
+.cell[data-value="X"] {
+    color: #FF6B6B;
+    text-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+}
+
+.cell[data-value="O"] {
+    color: #4ECDC4;
+    text-shadow: 0 2px 4px rgba(78, 205, 196, 0.3);
+}
+
+/* Анимация для появления символов */
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.cell.filled {
+    animation: popIn 0.3s ease-out;
+}
+
+/* Стиль для победной комбинации */
+.cell.win-cell {
+    background: linear-gradient(45deg, #FFD93D, #FF9A3D);
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+}
+
+/* Кнопка сброса */
+.reset-btn {
+    margin-top: 25px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.reset-btn:active {
+    transform: translateY(0);
+}
