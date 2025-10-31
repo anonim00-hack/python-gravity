@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const place = document.querySelector('.place')
-    const playerDisplay = document.querySelector('.player')
+    const playerX = document.querySelector('.playerX')
+    const playerO = document.querySelector('.playerO')
     const blur = document.querySelector('.blur')
-    let playerX = true
+    const child_body=document.querySelector('.child_body')
 
+    let playerIsX=true
     for (let i = 0; i < 9; i++) {
         const child = document.createElement('div')
         child.classList.add('cell')
@@ -11,12 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const childs = document.querySelectorAll('.cell')
-    updatePlayerDisplay()
     
     childs.forEach((el, index) => {
         el.addEventListener('click', () => {
             if (el.textContent == '' && !checkWin() && !isDraw()) {
-                const symbol = playerX ? 'X' : 'O'
+                const symbol = playerIsX ? 'X' : 'O'
                 el.textContent = symbol
                 el.setAttribute('data-value', symbol)
                 el.classList.add('filled')
@@ -29,19 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                     }, 500)
                 } else {
-                    playerX = !playerX
-                    updatePlayerDisplay()
+                    playerIsX = !playerIsX
+                }
+
+                if (symbol=='X'){
+                    playerX.style.height='160px'
+                    playerX.style.opacity='1'
+                    playerO.style.height='80px'
+                    playerO.style.opacity='0.5'
+                }else{
+                    playerX.style.height='80px'
+                    playerX.style.opacity='0.5'
+                    playerO.style.height='160px'
+                    playerO.style.opacity='1'
                 }
             }
         })
     })
-    
-    function updatePlayerDisplay() {
-        playerDisplay.textContent = playerX ? 'X' : 'O'
-        playerDisplay.style.background = playerX ? 
-            'linear-gradient(45deg, #FF6B6B, #FF8E53)' : 
-            'linear-gradient(45deg, #4ECDC4, #44A08D)'
-    }
     
     function checkWin() {
         const winningCombinations = [
@@ -76,6 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 childs[a].classList.add('win-cell')
                 childs[b].classList.add('win-cell')
                 childs[c].classList.add('win-cell')
+                if (childs[a].textContent=='O'&&childs[b].textContent=='O'&&childs[c].textContent=='O'){
+                    child_body.style.background='linear-gradient(45deg, #4ECDC4, #44A08D)'
+                }else{
+                    child_body.style.background='linear-gradient(45deg, #FF6B6B, #FF8E53)'
+                }
                 break
             }
         }
@@ -84,28 +94,36 @@ document.addEventListener('DOMContentLoaded', () => {
     function isDraw() {
         return Array.from(childs).every(cell => cell.textContent !== '')
     }
-    let rigth = true
+
     function resetGame() {
-        blur.style.right = '0px'
-        blur.style.height = window.innerHeight+'px'
-        blur.style.width = window.innerWidth+'px'
-        rigth=!rigth
-        setTimeout(()=>{
-            if (rigth) {
-                blur.style.left = '0px'
-                blur.style.width='0px'
-            }else{
-                blur.style.right = '0px'
-                blur.style.width='0px'
-            }
+        // Сбрасываем стили перед началом анимации
+        blur.style.left = '0px';
+        blur.style.right = 'auto';
+        blur.style.width = '0px';
+        blur.style.height = window.innerHeight + 'px';
+        
+        setTimeout(() => {
+            blur.style.width = window.innerWidth + 'px';
+        }, 10);
+        
+        setTimeout(() => {
             childs.forEach(cell => {
-                cell.textContent = ''
-                cell.removeAttribute('data-value')
-                cell.classList.remove('filled', 'win-cell')
-            })
-            playerX = true
-            updatePlayerDisplay()
-        },1000)
+                cell.textContent = '';
+                cell.classList.remove('filled', 'win-cell');
+                playerIsX=true
+                playerX.style.height='160px'
+                playerX.style.opacity='1'
+                playerX.style.background='linear-gradient(45deg, #FF6B6B, #FF8E53)'
+                playerO.style.height='80px'
+                playerO.style.opacity='0.5'
+                playerO.style.background='linear-gradient(45deg, #4ECDC4, #44A08D)'
+                child_body.style.background='rgba(255, 255, 255, 0.95)'
+            });
+            // Убираем элемент (сжимаем влево)
+            blur.style.left = 'auto';
+            blur.style.right = '0px';
+            blur.style.width = '0px';
+        }, 1000);
     }
     
     // Добавляем кнопку сброса

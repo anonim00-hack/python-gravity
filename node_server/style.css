@@ -1,0 +1,12 @@
+.output{
+    width: 500px;
+    height: 300px;
+    display: block;
+    border: 2px solid black;
+    border-radius: 10px;
+    background: linear-gradient(135deg,orange,blue);
+}
+input{
+    padding: 3px;
+    margin-left: 10px;
+}
