@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Пазл из кубиков</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+    .piece {
+      position: absolute;
+      background-image: url('gorilla.jpeg'); /* замените на ваше изображение */
+      background-size: cover;
+    }
+  </style>
+</head>
+<body>
+<script>
+const cols = 20; // количество кубиков по горизонтали
+const rows = 20; // количество кубиков по вертикали
+const size = 20; // размер кубика
+const els = [];
+
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let centerX = window.innerWidth / 2;
+let centerY = window.innerHeight / 2;
+
+let clicked = 0;
+let mouseDown = false;
+let exploded = false;
+let followSpeed = 0.1;
+
+document.addEventListener('mousedown', (e) => {
+  if (clicked == 0) {
+    clicked = clicked + 1;
+    exploded = false;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }else{
+    clicked = 0
+    exploded = true;
+  }
+  mouseDown = true;
+});
+
+
+document.addEventListener('mouseup', () => {
+  mouseDown = false;
+  els.forEach(obj => {
+    obj.targetX = Math.random() * window.innerWidth;
+    obj.targetY = Math.random() * window.innerHeight;
+    obj.speed = 0.01 + Math.random() * 0.08
+  });
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (clicked == 1) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }
+});
+
+// создаём кусочки изображения
+for (let y = 0; y < rows; y++) {
+  for (let x = 0; x < cols; x++) {
+    const el = document.createElement('div');
+    el.className = 'piece';
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.backgroundPosition = `${-x * size}px ${-y * size}px`;
+    el.style.backgroundSize = `${cols * size}px ${rows * size}px`;
+    document.body.appendChild(el);
+
+    els.push({
+      el,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      offsetX: (x - cols / 2) * size,
+      offsetY: (y - rows / 2) * size,
+      speed: 0.02 + Math.random() * 0.03,
+      targetX: 0,
+      targetY: 0
+    });
+  }
+}
+
+function animate() {
+  centerX += (mouseX - centerX) * followSpeed;
+  centerY += (mouseY - centerY) * followSpeed;
+
+  els.forEach(obj => {
+    const { el, offsetX, offsetY, speed } = obj;
+    const targetX = exploded ? obj.targetX : centerX + offsetX;
+    const targetY = exploded ? obj.targetY : centerY + offsetY;
+
+    obj.x += (targetX - obj.x) * speed;
+    obj.y += (targetY - obj.y) * speed;
+
+    el.style.left = obj.x + 'px';
+    el.style.top = obj.y + 'px';
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

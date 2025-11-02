@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiplayer Squares</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            border: 2px solid #333;
+            margin: 20px auto;
+            background: #2a2a2a;
+        }
+
+        .user-square {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            transition: all 0.1s ease;
+        }
+
+        #controls {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .controls-info {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info">
+        <h1>Multiplayer Squares</h1>
+        <div id="userInfo">Connecting...</div>
+    </div>
+
+    <div id="gameContainer"></div>
+
+    <div id="controls">
+        <div class="controls-info">
+            <strong>Controls:</strong>
+            W - Up, A - Left, S - Down, D - Right
+        </div>
+        <div class="controls-info">
+            <strong>Connected users:</strong>
+            <span id="userCount">0</span>
+        </div>
+    </div>
+
+    <script src="clinent.js"></script>
+</body>
+
+</html>

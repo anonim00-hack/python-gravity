@@ -1,0 +1,12 @@
+{
+  "name": "websocket-server",
+  "version": "1.0.0",
+  "main": "WebSocket/server.js",
+  "dependencies": {
+    "express": "^5.1.0",
+    "ws": "^8.13.0"
+  },
+  "scripts": {
+    "start": "node WebSocket/server.js"
+  }
+}
